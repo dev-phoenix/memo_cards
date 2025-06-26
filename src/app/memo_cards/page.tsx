@@ -1,26 +1,73 @@
 'use client';
 import Image from "next/image";
-
-let cards: any[] = [];
-
-for(let i = 0; i<24; i++){
-  cards.push(1)
-}
-
-const cardClick = (e) => {
-  let el = e.target.closest('.card')
-  console.log()
-  if(!el.classList.contains('rotate')){
-    el.classList.remove('norotate')
-    el.classList.add('rotate')
-  }
-  else{
-    el.classList.remove('rotate')
-    el.classList.add('norotate')
-  }
-}
+import { useState } from "react";
 
 export default function Home() {
+
+  // const [cardCounter, setCardCounter] = useState([])
+  // setCardCounter([])
+
+  let cards: any[] = [];
+
+  for(let i = 1; i<=24; i++){
+    cards.push( ( i % 8 ) + 1 )
+  }
+
+  let cards_counter: any[] = []
+
+  const cardsDeselect = () => {
+    let equals = true;
+    console.log(cards_counter[0].querySelector('.card-val'))
+    let def = cards_counter[0].querySelector('.card-val').dataset.val;
+    cards_counter.forEach((el, i, arr)=>{
+      let val = el.querySelector('.card-val').dataset.val;
+      if(val != def) equals = false
+    })
+    cards_counter.reduce((val, el)=>{
+      console.log(el,val)
+      el.classList.remove('rotate')
+      el.classList.add('norotate')
+      return val
+    }, 0)
+    if(equals){
+      cards_counter.forEach(el=>el.classList.add('hide'))
+    }
+    cards_counter = []
+  }
+
+  const cardClick = (e: any) => {
+    if(cards_counter.length >= 3) return
+    let el = e.target.closest('.card')
+    if(el.classList.contains('hide'))return
+    // setCardCounter([...cards_counter, el])
+    // console.log(cardCounter)
+    if(!el.classList.contains('rotate')){
+      cards_counter.push(el)
+      el.classList.remove('norotate')
+      el.classList.add('rotate')
+    }
+    else{
+      // el.classList.remove('rotate')
+      // el.classList.add('norotate')
+    }
+
+    if(cards_counter.length >= 3){
+      setTimeout( cardsDeselect, 1000 )
+    }
+  }
+
+  const reset = () => {
+    cards_counter = []
+    let els = document.querySelectorAll('.card').forEach((el) => {
+      el.classList.remove('norotate')
+      el.classList.remove('rotate')
+      el.classList.remove('hide')
+    })
+  }
+                    // width={170}
+                    // height={38}
+
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <header>
@@ -32,22 +79,16 @@ export default function Home() {
           {cards.map((v)=>(
             <div key={v} className="card" onClick={(e)=>(cardClick(e))}>
               <div className="back flex items-center justify-center">
-                <Image
-                  className="dark:invert"
-                  src="/next.svg"
-                  alt="Next.js logo"
-                  width={170}
-                  height={38}
-                  priority
-                /></div>
+                <div className="card_logo_text flex items-center justify-center card-val" data-val={v}>{v}</div>
+              </div>
 
               <div className="front flex items-center justify-center">
                 <Image
-                  className="dark:invert"
+                  className="dark:invert card_logo"
                   src="/next.svg"
                   alt="Next.js logo"
-                  width={170}
-                  height={38}
+                  width={0}
+                  height={0}
                   priority
                 /></div>
             </div>
@@ -59,9 +100,14 @@ export default function Home() {
           <a
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
             href="/"
-            alt="home"
           >
             Home
+          </a>
+          <a
+            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
+            onClick={reset}
+          >
+            Reset
           </a>
         </div>
       </main>
