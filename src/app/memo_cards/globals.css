@@ -1,99 +1,156 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #ffffff;
+    --foreground: #171717;
+
+    --background: #0a0a0a;
+    --foreground: #ededed;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
+}
+
+*{
+    box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
 .card{
-  position: relative;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  perspective-origin: 50% 50%;
-  /*animation: norotate 1s 1;*/
-  width: 200px;
-  height: 300px;
-  width: calc( 100vmin / 6 * .66 );
-  height: calc( 100vmin / 6 );
-  /* animation-fill-mode: both; */
-  animation-fill-mode: forwards;
-  /* border: 3px solid rgb(136, 3, 3); */
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+    /*animation: norotate 1s 1;*/
+    width: 200px;
+    height: 300px;
+    width: calc( 100vmin / 6 * .66 );
+    height: calc( 100vmin / 6 );
+    /* animation-fill-mode: both; */
+    animation-fill-mode: forwards;
+    /* border: 3px solid rgb(136, 3, 3); */
 }
 .hide *{
-  display: none;
+    display: none;
 }
 .rotate{
-  transform: rotateY(180deg);
-  animation: rotate 1s 1;
+    transform: rotateY(180deg);
+    animation: rotate 1s 1;
 }
 .norotate{
-  transform: rotateY(0deg);
-  animation: norotate 1s 1;
+    transform: rotateY(0deg);
+    animation: norotate 1s 1;
 }
 
 .front, .back{
-  position: absolute;
-  top: 0px;
-  left: 0x;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  border-radius: calc( 100vmin / 60 );
-  border: 3px solid white;
+    position: absolute;
+    top: 0px;
+    left: 0x;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    border-radius: calc( 100vmin / 60 );
+    border: 3px solid white;
 }
 
 .card_logo{
-  width: calc( 100vmin / 6 * .66 / 20 * 17 );
-  height: calc( 100vmin / 6 * .66 / 20 * 4 );
+    width: calc( 100vmin / 6 * .66 / 20 * 17 );
+    height: calc( 100vmin / 6 * .66 / 20 * 4 );
 }
 .card_logo_text{
-  text-transform: uppercase;
-  font-size: 5rem;
-  font-weight: bold;
+    text-transform: uppercase;
+    /* font-size: 5rem; */
+    font-size: calc( 100vh / 15 );
+    font-weight: bold;
 }
 
 .front{
-  background-color: orange;
-  transform: translateZ(1px);
+    background-color: orange;
+    transform: translateZ(1px);
 }
 .back{
-  background-color: cyan;
-  transform: translateZ(-1px) rotateY(180deg);
+    background-color: cyan;
+    transform: translateZ(-1px) rotateY(180deg);
 }
 @keyframes rotate{
-  from{
-    transform: rotateY(0deg);
-  }
-  to{
-    transform: rotateY(180deg);
-  }
+    from{
+        transform: rotateY(0deg);
+    }
+    to{
+        transform: rotateY(180deg);
+    }
 }
 @keyframes norotate{
-  from{
-    transform: rotateY(180deg);
-  }
-  to{
-    transform: rotateY(0deg);
-  }
+    from{
+        transform: rotateY(180deg);
+    }
+    to{
+        transform: rotateY(0deg);
+    }
 }
+
+#memo_cards_main{
+    position: relative;
+}
+
+.win-bg{
+    display: none;
+    background-color: rgb(10, 10, 10);
+    position: absolute;
+    top: 0;
+    left: -2px;
+    width: calc( 100% + 4px );
+    height: calc( 100% + 4px );
+}
+.canvas,
+#canvas{
+    display: none;
+    background-color: transparent;
+    position: absolute;
+    top: 20%;
+    left: -2px;
+    width: 100%;
+    height: 60%;
+}
+.memo_cards_field{
+    position: relative;
+}
+.d-b{display: block;}
+
+.header .info{
+    font-size: 3rem;
+}
+.header .timer{
+    font-size: 3rem;
+}
+
+.memo_monitor{width: 300px; min-width: 40px; position: fixed; top: 50px; right: 50px;}
+.memo_monitor{display:flex; flex-direction: column; gap: 5px; z-index: 10000;}
+.memo_monitor{padding: 5px;}
+.memo_monitor.dn{display: none;}
+.memo_monitor{align-items: stretch; border: 1px lightgreen solid; border-radius: 5px;}
+.memo_monitor{background-color:rgba(0,0,0,0.7);}
+
+/* .memo_monitor_item{width: calc(100%; min-height: 50px;} */
+.memo_monitor_item{display:flex; flex-direction: column; gap: 0px;}
+.memo_monitor_item{padding:5px; border: 1px lightgreen solid; border-radius: 3px;}
+.memo_mi_row{width: 100%; font-size: 1ref }
+.memo_mi_row{display:flex; gap: 5px; justify-content: space-between;}
+.memo_mi_row{color: white; font-weight: bold;}
